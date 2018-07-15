@@ -22,16 +22,31 @@ const praticleoptions = {
 
 
 class App extends Component {
+  constructor()
+  {
+    super();
+    this.state={
+      input:'',
+    }
+  }
+
+  oninputchange = (event) =>{
+    console.log(event.target.value);
+  }
+  onsubmit = ()=>{
+    console.log("clicked");
+  }
+  
   render() {
     return (
       <div className="App">
        <Particles className="p"
-              params={  praticleoptions 	}
+              params={praticleoptions}
             />
         <Navigation/>
         <Logo/>
         <Rank/>
-        <ImageLink/>
+        <ImageLink oninputchange={this.oninputchange} onsubmit ={this.onsubmit}/>
         {/*<FaceRecognition/> */}
       </div>
     );

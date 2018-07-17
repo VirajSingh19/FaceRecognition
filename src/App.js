@@ -5,7 +5,7 @@ import Logo from './Components/Logo/Logo'
 import ImageLink from './Components/ImageLink/ImageLink'
 import Rank from './Components/Rank/Rank';
 import Particles from 'react-particles-js';
-// const Clarifai = require('clarifai');
+import FaceRecognition from './Components/FaceRecognition/FaceRecognition';
 import Clarifai from 'clarifai';
 
 
@@ -35,22 +35,24 @@ class App extends Component {
     super();
     this.state={
       input:'',
+      imageurl:'',
     }
   }
 
   oninputchange = (event) =>{
-    console.log(event.target.value);
+    this.setState({input:event.target.value});
   }
+
   onsubmit = ()=>{
     console.log("clicked");
+    this.setState({imageurl:this.state.input});
 
-    app.models.predict("a403429f2ddf4b49b307e318f00e528b", "https://samples.clarifai.com/face-det.jpg").then(
+    app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input).then(
       function(response) {
-        // do something with response
-        console.log(response);
+        console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
       },
       function(err) {
-        // there was an error
+        console.log(err);
       }
     );
   
@@ -66,7 +68,7 @@ class App extends Component {
         <Logo/>
         <Rank/>
         <ImageLink oninputchange={this.oninputchange} onsubmit ={this.onsubmit}/>
-        {/*<FaceRecognition/> */}
+        <FaceRecognition imageurl={this.state.imageurl}/>
       </div>
     );
   }

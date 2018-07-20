@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import Signin from './Components/Signin/Signin';
 import Navigation from './Components/Navigation/Navigation';
 import Logo from './Components/Logo/Logo'
 import ImageLink from './Components/ImageLink/ImageLink'
@@ -37,6 +38,7 @@ class App extends Component {
       input:'',
       imageurl:'',
       box:{},
+      route:'signin',
     }
   }
 
@@ -72,19 +74,27 @@ class App extends Component {
     .then(response => this.displayfacebox(this.calculateFaceLocation(response)))
     .catch(err => console.log(err))
   }
+
+
+  onRouteChange = (route) =>{
+    this.setState({route:route});
+  }
   
   render() {
     return (
       <div className="App">
-       <Particles className="p"
-              params={praticleoptions}
-            />
-        <Navigation/>
+       <Particles className="p" params={praticleoptions}/>
+       { (this.state.route==='signin')
+         ? <Signin  onRouteChange={this.onRouteChange}/>
+        :<div>
+        <Navigation onRouteChange={this.onRouteChange}/>
         <Logo/>
         <Rank/>
         <ImageLink oninputchange={this.oninputchange} onsubmit ={this.onsubmit}/>
         <FaceRecognition box ={this.state.box} imageurl={this.state.imageurl}/>
       </div>
+       }
+       </div>
     );
   }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Signin from './Components/Signin/Signin';
+import Register from './Components/Register/Register';
 import Navigation from './Components/Navigation/Navigation';
 import Logo from './Components/Logo/Logo'
 import ImageLink from './Components/ImageLink/ImageLink'
@@ -84,15 +85,20 @@ class App extends Component {
     return (
       <div className="App">
        <Particles className="p" params={praticleoptions}/>
-       { (this.state.route==='signin')
-         ? <Signin  onRouteChange={this.onRouteChange}/>
-        :<div>
+       { (this.state.route==='home')
+         ? 
+         <div>
         <Navigation onRouteChange={this.onRouteChange}/>
         <Logo/>
         <Rank/>
         <ImageLink oninputchange={this.oninputchange} onsubmit ={this.onsubmit}/>
         <FaceRecognition box ={this.state.box} imageurl={this.state.imageurl}/>
-      </div>
+          </div>
+        : (
+          this.state.route==='signin'
+            ?<Signin onRouteChange={this.onRouteChange}/>
+            : <Register onRouteChange={this.onRouteChange}/>
+        )
        }
        </div>
     );
